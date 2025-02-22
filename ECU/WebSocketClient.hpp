@@ -6,7 +6,7 @@
 #include <WString.h>
 #include "Variables.hpp"
 #include <WiFiMulti.h>
-// #include <ArduinoJson.h>
+#include <ArduinoJson.h>
 
 
 void onMessageCallback(websockets::WebsocketsMessage message);

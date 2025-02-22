@@ -1,9 +1,9 @@
 #include "WebSocketClient.hpp"
 
-const char* ssid = "NewYork"; //Enter SSID
-const char* password = "UnitedState#0407"; //Enter Password
+const char* ssid = "NewYork 24Ghz"; //Enter SSID
+const char* password = "UnitedStates#0407"; //Enter Password
 
-const char* websockets_connection_string = "ws://localhost:8000/"; //Enter server adress
+const char* websockets_connection_string = "ws://192.168.0.65:8000/"; //Enter server adress
 
 using namespace websockets;
 
@@ -50,12 +50,19 @@ void onEventsCallback(WebsocketsEvent event, String data)
 
 void WebSocketClient_Init() 
 {
+  JsonDocument data;
+  websockets::WSInterfaceString payload;
+  data["message"] = "Done";
+  serializeJson(data, payload);
+
   WiFi.begin(ssid, password);
 
   // Wait some time to connect to wifi
-  for(int i = 0; i < 10 && WiFi.status() != WL_CONNECTED; i++) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
+      WiFi.reconnect();
       Serial.print(".");
-      delay(1000);
+      delay(10000);
   }
 
   // run callback when messages are received
@@ -63,10 +70,9 @@ void WebSocketClient_Init()
   
   // run callback when events are occuring
   client.onEvent(onEventsCallback);
-
-
+  // String data = "Hello Server";
   // Connect to server
-  if(!client.connect(websockets_connection_string))
+  if(client.connect(websockets_connection_string))
   {
     Serial.println("Connected to websocket server");
   }
@@ -79,26 +85,15 @@ void WebSocketClient_Init()
     }
   }
 
-  // if (client.handshake()) {
-  //   Serial.println("Handshake successful");
-  // } else {
-  //   Serial.println("Handshake failed.");
-  //   while(1) {
-  //     // Hang on failure
-  //   }  
 
-  String data = "Hello Server";
-  // Send a message
-  // client(data);
-  client.send(data);
-
+  client.send(payload);
   // Send a ping
   client.ping();
 }
 
 void WebSocketClient_MainFunction()
 {
-  switch (WEBSOCKET_SEND) 
+  switch (WebSocket_Status) 
   {
     case WEBSOCKET_INIT:
       break;
@@ -122,6 +117,7 @@ void WebSocketClient_MainFunction()
         serializeJson(payload, data);
 
       	client.send(data);
+        WebSocket_Status = WEBSOCKET_INIT;
       break;
   }
 
