@@ -2,7 +2,7 @@ import useWebSocket, { ReadyState } from "react-use-websocket"
 import React, { useEffect, useRef } from "react"
 
 export const Home = () => {
-  const WS_URL = "ws://127.0.0.1:800"
+  const WS_URL = "ws://localhost:8000"
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     WS_URL,
     {
