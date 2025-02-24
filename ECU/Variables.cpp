@@ -9,6 +9,8 @@ c_CheckInData_t::c_CheckInData_t()
     _dataBlock.date[i] = 0xFF;
   }
   _dataBlock.hour = 0xFF;
+  _dataBlock.minute = 0xFF;
+  _dataBlock.second = 0xFF;
   _sector = 0;
   _blockAddr = 0;
 }
@@ -62,10 +64,9 @@ bool c_CheckInData_t::getAddress(uint8_t * sector, uint8_t * blockAddr)
   return retVal;
 }
 
-Std_ReturnType c_CheckInData_t::setDate(uint8_t * hour, uint8_t * date)
+Std_ReturnType c_CheckInData_t::setDate(uint8_t * date)
 {
   Std_ReturnType retVal = E_NOT_OK;
-  _dataBlock.hour = *hour;
   for (size_t i=0; i<DATE_SIZE; i++)
   {
     _dataBlock.date[i] = date[i];
@@ -74,14 +75,36 @@ Std_ReturnType c_CheckInData_t::setDate(uint8_t * hour, uint8_t * date)
   return retVal;
 }
 
-Std_ReturnType c_CheckInData_t::getDate(uint8_t * hour, uint8_t * date)
+Std_ReturnType c_CheckInData_t::getDate(uint8_t * date)
 {
   Std_ReturnType retVal = E_NOT_OK;
-  *hour = _dataBlock.hour; 
   for (size_t i=0; i<DATE_SIZE; i++)
   {
     date[i] = _dataBlock.date[i];
   }
+  retVal = E_OK;
+  return retVal;
+}
+
+Std_ReturnType c_CheckInData_t::setTime(uint8_t *hour, uint8_t *minute, uint8_t *second)
+{
+  Std_ReturnType retVal = E_NOT_OK;
+  _dataBlock.hour = *hour;
+  _dataBlock.minute = *minute;
+  _dataBlock.second = *second;
+  
+
+  retVal = E_OK;
+  return retVal;
+}
+
+Std_ReturnType c_CheckInData_t::getTime(uint8_t *hour, uint8_t *minute, uint8_t *second)
+{
+  Std_ReturnType retVal = E_NOT_OK;
+  *hour = _dataBlock.hour;
+  *minute = _dataBlock.minute;
+  *second = _dataBlock.second; 
+
   retVal = E_OK;
   return retVal;
 }

@@ -100,23 +100,26 @@ void WebSocketClient_MainFunction()
     case WEBSOCKET_PENDING:
       break;
     case WEBSOCKET_SEND:
-        JsonDocument payload;
-        uint8_t buff[5];
+        JsonDocument data;
+        uint8_t buff[7];
         c_CheckInData.getID(&buff[0]);
-        c_CheckInData.getDate(&buff[1], &buff[4]);
+        c_CheckInData.getDate(&buff[1]);
+        c_CheckInData.getTime(&buff[4], &buff[5], &buff[6]);
 
-        payload["id"] = buff[0];
+        data["id"] = buff[0];
 
-        payload["day"] = buff[1];
-        payload["month"] = buff[2];
-        payload["year"] = buff[3];
+        data["day"] = buff[1];
+        data["month"] = buff[2];
+        data["year"] = buff[3];
 
-        payload["hour"] = buff[4];
+        data["hour"] = buff[4];
+        data["minute"] = buff[5];
+        data["second"] = buff[6];
       
-        websockets::WSInterfaceString data; 
-        serializeJson(payload, data);
+        websockets::WSInterfaceString payload; 
+        serializeJson(data, payload);
 
-      	client.send(data);
+      	client.send(payload);
         WebSocket_Status = WEBSOCKET_INIT;
       break;
   }

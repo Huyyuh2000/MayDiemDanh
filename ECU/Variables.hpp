@@ -15,6 +15,8 @@ struct s_dataBlock {
     uint8_t id;
     uint8_t date[DATE_SIZE]; // dd/mm/yyyy
     uint8_t hour;
+    uint8_t minute;
+    uint8_t second;
     uint8_t reserve[DATA_BLOCK_SIZE_RESERVE];
 };
 
@@ -34,8 +36,11 @@ class c_CheckInData_t {
     bool padding();
     Std_ReturnType setID(uint8_t * id);
     Std_ReturnType getID(uint8_t * id);
-    Std_ReturnType setDate(uint8_t * hour, uint8_t * date);
-    Std_ReturnType getDate(uint8_t * hour, uint8_t * date);
+    Std_ReturnType setDate(uint8_t * date);
+    Std_ReturnType getDate(uint8_t * date);
+    Std_ReturnType setTime(uint8_t * hour, uint8_t * minute, uint8_t * second);
+    Std_ReturnType getTime(uint8_t * hour, uint8_t * minute, uint8_t * second);
+
 };
 
 extern c_CheckInData_t c_CheckInData;

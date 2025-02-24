@@ -8,7 +8,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   WebSocketClient_Init();
-  // RTC_Init();
+  RTC_Init();
   RFID_Init();
 }
 
@@ -17,7 +17,7 @@ void setup() {
 void loop() {
 
   RFID_ReadWriteHandler();
-  // RTC_MainFunction();
+  RTC_MainFunction();
   RFID_MainFunction();
   WebSocketClient_MainFunction();
 }
